@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
@@ -19,8 +20,8 @@ class FollowUserItem extends StatelessWidget {
     this.onTap,
     this.onLongPress,
     this.playing = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -161,8 +162,8 @@ class FollowUserItem extends StatelessWidget {
       int hours = durationInSeconds ~/ 3600;
       int minutes = (durationInSeconds % 3600) ~/ 60;
 
-      String hourText = hours > 0 ? '${hours}小时' : '';
-      String minuteText = minutes > 0 ? '${minutes}分钟' : '';
+      String hourText = hours > 0 ? '$hours小时' : '';
+      String minuteText = minutes > 0 ? '$minutes分钟' : '';
 
       if (hours == 0 && minutes == 0) {
         return "不足1分钟";
@@ -170,7 +171,9 @@ class FollowUserItem extends StatelessWidget {
 
       return '$hourText$minuteText';
     } catch (e) {
-      print('格式化开播时长出错: $e');
+      if (kDebugMode) {
+        print('格式化开播时长出错: $e');
+      }
       return "--小时--分钟";
     }
   }

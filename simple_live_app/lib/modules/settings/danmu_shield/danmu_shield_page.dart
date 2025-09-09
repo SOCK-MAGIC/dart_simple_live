@@ -4,14 +4,12 @@ import 'package:simple_live_app/app/app_style.dart';
 import 'package:simple_live_app/modules/settings/danmu_shield/danmu_shield_controller.dart';
 
 class DanmuShieldPage extends GetView<DanmuShieldController> {
-  const DanmuShieldPage({Key? key}) : super(key: key);
+  const DanmuShieldPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("弹幕屏蔽"),
-      ),
+      appBar: AppBar(title: const Text("弹幕屏蔽")),
       body: ListView(
         padding: AppStyle.edgeInsetsA12,
         children: [
@@ -64,10 +62,7 @@ class DanmuShieldPage extends GetView<DanmuShieldController> {
                           top: 4,
                           bottom: 4,
                         ),
-                        child: Text(
-                          item,
-                          style: Get.textTheme.bodyMedium,
-                        ),
+                        child: Text(item, style: Get.textTheme.bodyMedium),
                       ),
                     ),
                   )

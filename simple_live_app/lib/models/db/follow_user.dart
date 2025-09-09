@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'follow_user.g.dart';
 
@@ -12,7 +12,7 @@ class FollowUser {
     required this.userName,
     required this.face,
     required this.addTime,
-    this.tag = "全部"
+    this.tag = "全部",
   });
 
   ///id=siteId_roomId
@@ -45,22 +45,22 @@ class FollowUser {
   String? liveStartTime;
 
   factory FollowUser.fromJson(Map<String, dynamic> json) => FollowUser(
-        id: json['id'],
-        roomId: json['roomId'],
-        siteId: json['siteId'],
-        userName: json['userName'],
-        face: json['face'],
-        addTime: DateTime.parse(json['addTime']),
-        tag: json["tag"]??"全部",
-      );
+    id: json['id'],
+    roomId: json['roomId'],
+    siteId: json['siteId'],
+    userName: json['userName'],
+    face: json['face'],
+    addTime: DateTime.parse(json['addTime']),
+    tag: json["tag"] ?? "全部",
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'roomId': roomId,
-        'siteId': siteId,
-        'userName': userName,
-        'face': face,
-        'addTime': addTime.toString(),
-        'tag':tag,
-      };
+    'id': id,
+    'roomId': roomId,
+    'siteId': siteId,
+    'userName': userName,
+    'face': face,
+    'addTime': addTime.toString(),
+    'tag': tag,
+  };
 }

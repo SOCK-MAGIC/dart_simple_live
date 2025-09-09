@@ -1,6 +1,5 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-
 import 'package:get/get.dart';
 import 'package:simple_live_app/app/app_style.dart';
 import 'package:simple_live_app/modules/category/category_list_controller.dart';
@@ -13,19 +12,21 @@ import 'package:sticky_headers/sticky_headers.dart';
 
 class CategoryListView extends StatelessWidget {
   final String tag;
-  const CategoryListView(this.tag, {Key? key}) : super(key: key);
+
+  const CategoryListView(this.tag, {super.key});
+
   CategoryListController get controller =>
       Get.find<CategoryListController>(tag: tag);
+
   @override
   Widget build(BuildContext context) {
     return KeepAliveWrapper(
       child: Obx(
         () => EasyRefresh(
-          firstRefresh: true,
           controller: controller.easyRefreshController,
           onRefresh: controller.refreshData,
           header: MaterialHeader(
-            completeDuration: const Duration(milliseconds: 400),
+            processedDuration: const Duration(milliseconds: 400),
           ),
           child: ListView.builder(
             padding: AppStyle.edgeInsetsA12,
@@ -43,7 +44,9 @@ class CategoryListView extends StatelessWidget {
                       child: Text(
                         item.name,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     content: Obx(
@@ -56,16 +59,12 @@ class CategoryListView extends StatelessWidget {
                         mainAxisSpacing: 8,
                         children: item.showAll.value
                             ? (item.children
-                                .map(
-                                  (e) => buildSubCategory(e),
-                                )
-                                .toList())
+                                  .map((e) => buildSubCategory(e))
+                                  .toList())
                             : (item.take15
-                                .map(
-                                  (e) => buildSubCategory(e),
-                                )
-                                .toList()
-                              ..add(buildShowMore(item))),
+                                  .map((e) => buildSubCategory(e))
+                                  .toList()
+                                ..add(buildShowMore(item))),
                       ),
                     ),
                   ),
@@ -86,12 +85,7 @@ class CategoryListView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          NetImage(
-            item.pic ?? "",
-            width: 40,
-            height: 40,
-            borderRadius: 8,
-          ),
+          NetImage(item.pic ?? "", width: 40, height: 40, borderRadius: 8),
           AppStyle.vGap4,
           Text(
             item.name,

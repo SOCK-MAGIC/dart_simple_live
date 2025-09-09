@@ -8,7 +8,7 @@ import 'package:simple_live_app/app/app_style.dart';
 import 'package:simple_live_app/app/log.dart';
 
 class DebugLogPage extends StatelessWidget {
-  const DebugLogPage({Key? key}) : super(key: key);
+  const DebugLogPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,12 @@ class DebugLogPage extends StatelessWidget {
                   .join('\r\n\r\n');
               var dir = await getApplicationDocumentsDirectory();
               var logFile = File(
-                  '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.log');
+                  '${dir.path}/${DateTime
+                      .now()
+                      .millisecondsSinceEpoch}.log');
               await logFile.writeAsString(msg);
-              Share.shareXFiles([XFile(logFile.path)]);
+              var shareParams = ShareParams(files: [XFile(logFile.path)]);
+              SharePlus.instance.share(shareParams);
             },
             icon: const Icon(Icons.save),
           ),
@@ -38,21 +41,22 @@ class DebugLogPage extends StatelessWidget {
         ],
       ),
       body: Obx(
-        () => ListView.separated(
-          itemCount: Log.debugLogs.length,
-          separatorBuilder: (_, i) => const Divider(),
-          padding: AppStyle.edgeInsetsA12,
-          itemBuilder: (_, i) {
-            var item = Log.debugLogs[i];
-            return SelectableText(
-              "${item.datetime.toString()}\r\n${item.content}",
-              style: TextStyle(
-                color: item.color,
-                fontSize: 12,
-              ),
-            );
-          },
-        ),
+            () =>
+            ListView.separated(
+              itemCount: Log.debugLogs.length,
+              separatorBuilder: (_, i) => const Divider(),
+              padding: AppStyle.edgeInsetsA12,
+              itemBuilder: (_, i) {
+                var item = Log.debugLogs[i];
+                return SelectableText(
+                  "${item.datetime.toString()}\r\n${item.content}",
+                  style: TextStyle(
+                    color: item.color,
+                    fontSize: 12,
+                  ),
+                );
+              },
+            ),
       ),
     );
   }

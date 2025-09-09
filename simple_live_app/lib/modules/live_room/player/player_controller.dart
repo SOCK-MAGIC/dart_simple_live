@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:auto_orientation_v2/auto_orientation_v2.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:floating/floating.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:ns_danmaku/ns_danmaku.dart';
@@ -35,6 +34,7 @@ mixin PlayerMixin {
           : MPVLogLevel.error,
     ),
   );
+
   /// 初始化播放器并设置 ao 参数
   Future<void> initializePlayer() async {
     // 设置音频输出驱动
@@ -57,15 +57,15 @@ mixin PlayerMixin {
             hwdec: AppSettingsController.instance.videoHardwareDecoder.value,
           )
         : AppSettingsController.instance.playerCompatMode.value
-            ? const VideoControllerConfiguration(
-                vo: 'mediacodec_embed',
-                hwdec: 'mediacodec',
-              )
-            : VideoControllerConfiguration(
-                enableHardwareAcceleration:
-                    AppSettingsController.instance.hardwareDecode.value,
-                androidAttachSurfaceAfterVideoParameters: false,
-              ),
+        ? const VideoControllerConfiguration(
+            vo: 'mediacodec_embed',
+            hwdec: 'mediacodec',
+          )
+        : VideoControllerConfiguration(
+            enableHardwareAcceleration:
+                AppSettingsController.instance.hardwareDecode.value,
+            androidAttachSurfaceAfterVideoParameters: false,
+          ),
   );
 }
 
@@ -146,12 +146,7 @@ mixin PlayerStateMixin on PlayerMixin {
   void resetHideControlsTimer() {
     hideControlsTimer?.cancel();
 
-    hideControlsTimer = Timer(
-      const Duration(
-        seconds: 5,
-      ),
-      hideControls,
-    );
+    hideControlsTimer = Timer(const Duration(seconds: 5), hideControls);
   }
 
   void updateScaleMode() {
@@ -174,10 +169,7 @@ mixin PlayerStateMixin on PlayerMixin {
       boxFit = BoxFit.contain;
       aspectRatio = 4 / 3;
     }
-    globalPlayerKey.currentState?.update(
-      aspectRatio: aspectRatio,
-      fit: boxFit,
-    );
+    globalPlayerKey.currentState?.update(aspectRatio: aspectRatio, fit: boxFit);
   }
 }
 mixin PlayerDanmakuMixin on PlayerStateMixin {
@@ -221,7 +213,7 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
   final pip = Floating();
   StreamSubscription<PiPStatus>? _pipSubscription;
 
-  final VolumeController volumeController = VolumeController();
+  final VolumeController volumeController = VolumeController.instance;
 
   /// 初始化一些系统状态
   void initSystem() async {
@@ -282,8 +274,10 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
   /// 退出全屏
   void exitFull() {
     if (Platform.isAndroid || Platform.isIOS) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
-          overlays: SystemUiOverlay.values);
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.edgeToEdge,
+        overlays: SystemUiOverlay.values,
+      );
       setPortraitOrientation();
     } else {
       windowManager.setFullScreen(false);
@@ -340,7 +334,7 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
   /// 设置横屏
   Future setLandscapeOrientation() async {
     if (await beforeIOS16()) {
-      AutoOrientation.landscapeAutoMode();
+      // AutoOrientation.landscapeAutoMode();
     } else {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
@@ -352,7 +346,7 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
   /// 设置竖屏
   Future setPortraitOrientation() async {
     if (await beforeIOS16()) {
-      AutoOrientation.portraitAutoMode();
+      // AutoOrientation.portraitAutoMode();
     } else {
       await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     }
@@ -389,9 +383,7 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
       }
 
       if (Platform.isIOS || Platform.isAndroid) {
-        await ImageGallerySaver.saveImage(
-          imageData,
-        );
+        await ImageGallerySaverPlus.saveImage(imageData);
         SmartDialog.showToast("已保存截图至相册");
       } else {
         //选择保存文件夹
@@ -447,11 +439,7 @@ mixin PlayerSystemMixin on PlayerMixin, PlayerStateMixin, PlayerDanmakuMixin {
     } else {
       ratio = const Rational.landscape();
     }
-    await pip.enable(
-      ImmediatePiP(
-        aspectRatio: ratio,
-      ),
-    );
+    await pip.enable(ImmediatePiP(aspectRatio: ratio));
 
     _pipSubscription ??= pip.pipStatusStream.listen((event) {
       if (event == PiPStatus.disabled) {
@@ -696,13 +684,15 @@ class PlayerController extends BaseController
     });
     _widthSubscription = player.stream.width.listen((event) {
       Log.d(
-          'width:$event  W:${(player.state.width)}  H:${(player.state.height)}');
+        'width:$event  W:${(player.state.width)}  H:${(player.state.height)}',
+      );
       isVertical.value =
           (player.state.height ?? 9) > (player.state.width ?? 16);
     });
     _heightSubscription = player.stream.height.listen((event) {
       Log.d(
-          'height:$event  W:${(player.state.width)}  H:${(player.state.height)}');
+        'height:$event  W:${(player.state.width)}  H:${(player.state.height)}',
+      );
       isVertical.value =
           (player.state.height ?? 9) > (player.state.width ?? 16);
     });
@@ -748,9 +738,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.videoParams.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "VideoParams\n${player.state.videoParams}",
-                ),
+                ClipboardData(text: "VideoParams\n${player.state.videoParams}"),
               );
             },
           ),
@@ -759,9 +747,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.audioParams.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "AudioParams\n${player.state.audioParams}",
-                ),
+                ClipboardData(text: "AudioParams\n${player.state.audioParams}"),
               );
             },
           ),
@@ -770,9 +756,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.playlist.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "Media\n${player.state.playlist}",
-                ),
+                ClipboardData(text: "Media\n${player.state.playlist}"),
               );
             },
           ),
@@ -781,9 +765,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.track.audio.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "AudioTrack\n${player.state.track.audio}",
-                ),
+                ClipboardData(text: "AudioTrack\n${player.state.track.audio}"),
               );
             },
           ),
@@ -792,9 +774,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.track.video.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "VideoTrack\n${player.state.track.audio}",
-                ),
+                ClipboardData(text: "VideoTrack\n${player.state.track.audio}"),
               );
             },
           ),
@@ -814,9 +794,7 @@ class PlayerController extends BaseController
             subtitle: Text(player.state.volume.toString()),
             onTap: () {
               Clipboard.setData(
-                ClipboardData(
-                  text: "Volume\n${player.state.volume}",
-                ),
+                ClipboardData(text: "Volume\n${player.state.volume}"),
               );
             },
           ),

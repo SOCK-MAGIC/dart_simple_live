@@ -9,7 +9,7 @@ import 'package:simple_live_app/widgets/net_image.dart';
 import 'package:simple_live_app/widgets/page_grid_view.dart';
 
 class HistoryPage extends GetView<HistoryController> {
-  const HistoryPage({Key? key}) : super(key: key);
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +41,7 @@ class HistoryPage extends GetView<HistoryController> {
               color: Colors.red,
               padding: AppStyle.edgeInsetsA12,
               alignment: Alignment.centerRight,
-              child: const Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.delete, color: Colors.white),
             ),
             confirmDismiss: (direction) async {
               return await Utils.showAlertDialog("确定要删除此记录吗?", title: "删除记录");
@@ -65,10 +62,7 @@ class HistoryPage extends GetView<HistoryController> {
                   Expanded(
                     child: Row(
                       children: [
-                        Image.asset(
-                          site.logo,
-                          width: 20,
-                        ),
+                        Image.asset(site.logo, width: 20),
                         AppStyle.hGap4,
                         Text(
                           site.name,
@@ -90,8 +84,10 @@ class HistoryPage extends GetView<HistoryController> {
                 AppNavigator.toLiveRoomDetail(site: site, roomId: item.roomId);
               },
               onLongPress: () async {
-                var result =
-                    await Utils.showAlertDialog("确定要删除此记录吗?", title: "删除记录");
+                var result = await Utils.showAlertDialog(
+                  "确定要删除此记录吗?",
+                  title: "删除记录",
+                );
                 if (!result) {
                   return;
                 }

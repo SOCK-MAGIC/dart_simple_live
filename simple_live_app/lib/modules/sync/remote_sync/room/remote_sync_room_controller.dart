@@ -21,11 +21,13 @@ import 'package:simple_live_app/services/signalr_service.dart';
 class RemoteSyncRoomController extends BaseController {
   final String roomId;
   final SignalRService signalR = SignalRService();
+
   RemoteSyncRoomController(this.roomId) {
     if (roomId.isNotEmpty) {
       currentRoomId.value = roomId;
     }
   }
+
   StreamSubscription? _roomDestroyedSubscription;
   StreamSubscription? _roomUserUpdatedSubscription;
   StreamSubscription? _onFavoriteSubscription;
@@ -102,11 +104,11 @@ class RemoteSyncRoomController extends BaseController {
       SmartDialog.showToast("房间已被销毁");
       Get.back();
     });
-    _roomUserUpdatedSubscription = signalR.onRoomUserUpdatedStream.listen(
-      (roomUsers) {
-        this.roomUsers.assignAll(roomUsers);
-      },
-    );
+    _roomUserUpdatedSubscription = signalR.onRoomUserUpdatedStream.listen((
+      roomUsers,
+    ) {
+      this.roomUsers.assignAll(roomUsers);
+    });
     _onFavoriteSubscription = signalR.onFavoriteStream.listen((data) {
       onReceiveFavorite(data.$1, data.$2);
     });

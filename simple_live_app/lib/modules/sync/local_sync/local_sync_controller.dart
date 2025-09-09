@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -11,11 +9,11 @@ import 'package:simple_live_app/app/utils.dart';
 import 'package:simple_live_app/requests/sync_client_request.dart';
 import 'package:simple_live_app/routes/app_navigation.dart';
 import 'package:simple_live_app/routes/route_path.dart';
-
 import 'package:simple_live_app/services/sync_service.dart';
 
 class LocalSyncController extends BaseController {
   final String? address;
+
   LocalSyncController(this.address);
 
   @override

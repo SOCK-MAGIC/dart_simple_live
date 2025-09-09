@@ -8,11 +8,12 @@ import 'package:simple_live_app/services/bilibili_account_service.dart';
 class BiliBiliWebLoginController extends BaseController {
   InAppWebViewController? webViewController;
   final CookieManager cookieManager = CookieManager.instance();
+
   void onWebViewCreated(InAppWebViewController controller) {
     webViewController = controller;
     webViewController!.loadUrl(
       urlRequest: URLRequest(
-        url: Uri.parse("https://passport.bilibili.com/login"),
+        url: WebUri.uri(Uri.parse("https://passport.bilibili.com/login")),
       ),
     );
   }
@@ -34,7 +35,8 @@ class BiliBiliWebLoginController extends BaseController {
   Future<bool> logined() async {
     try {
       var cookies = await cookieManager.getCookies(
-          url: Uri.parse("https://bilibili.com"));
+        url: WebUri.uri(Uri.parse("https://bilibili.com")),
+      );
       if (cookies.isEmpty) {
         return false;
       }

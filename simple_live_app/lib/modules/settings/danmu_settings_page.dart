@@ -10,19 +10,15 @@ import 'package:simple_live_app/widgets/settings/settings_number.dart';
 import 'package:simple_live_app/widgets/settings/settings_switch.dart';
 
 class DanmuSettingsPage extends StatelessWidget {
-  const DanmuSettingsPage({Key? key}) : super(key: key);
+  const DanmuSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("弹幕设置"),
-      ),
+      appBar: AppBar(title: const Text("弹幕设置")),
       body: ListView(
         padding: AppStyle.edgeInsetsA12,
-        children: const [
-          DanmuSettingsView(),
-        ],
+        children: const [DanmuSettingsView()],
       ),
     );
   }
@@ -31,6 +27,7 @@ class DanmuSettingsPage extends StatelessWidget {
 class DanmuSettingsView extends GetView<AppSettingsController> {
   final Function()? onTapDanmuShield;
   final DanmakuController? danmakuController;
+
   const DanmuSettingsView({
     this.onTapDanmuShield,
     this.danmakuController,
@@ -45,10 +42,7 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
       children: [
         Padding(
           padding: AppStyle.edgeInsetsA12.copyWith(top: 0),
-          child: Text(
-            "弹幕屏蔽",
-            style: Get.textTheme.titleSmall,
-          ),
+          child: Text("弹幕屏蔽", style: Get.textTheme.titleSmall),
         ),
         SettingsCard(
           child: Column(
@@ -56,7 +50,8 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
             children: [
               SettingsAction(
                 title: "关键词屏蔽",
-                onTap: onTapDanmuShield ??
+                onTap:
+                    onTapDanmuShield ??
                     () => Get.toNamed(RoutePath.kSettingsDanmuShield),
               ),
             ],
@@ -64,10 +59,7 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
         ),
         Padding(
           padding: AppStyle.edgeInsetsA12.copyWith(top: 24),
-          child: Text(
-            "弹幕设置",
-            style: Get.textTheme.titleSmall,
-          ),
+          child: Text("弹幕设置", style: Get.textTheme.titleSmall),
         ),
         SettingsCard(
           child: Column(
@@ -126,8 +118,9 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
                   onChanged: (e) {
                     controller.setDanmuSize(e.toDouble());
                     updateDanmuOption(
-                      danmakuController?.option
-                          .copyWith(fontSize: e.toDouble()),
+                      danmakuController?.option.copyWith(
+                        fontSize: e.toDouble(),
+                      ),
                     );
                   },
                 ),
@@ -149,9 +142,8 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
                     "偏粗",
                     "粗",
                     "很粗",
-                    "极粗"
-                  ][controller.danmuFontWeight.value]
-                      .toString(),
+                    "极粗",
+                  ][controller.danmuFontWeight.value].toString(),
                   onChanged: (e) {
                     controller.setDanmuFontWeight(e);
                     updateDanmuOption(
@@ -173,8 +165,9 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
                   onChanged: (e) {
                     controller.setDanmuSpeed(e.toDouble());
                     updateDanmuOption(
-                      danmakuController?.option
-                          .copyWith(duration: e.toDouble()),
+                      danmakuController?.option.copyWith(
+                        duration: e.toDouble(),
+                      ),
                     );
                   },
                 ),
@@ -189,8 +182,9 @@ class DanmuSettingsView extends GetView<AppSettingsController> {
                   onChanged: (e) {
                     controller.setDanmuStrokeWidth(e.toDouble());
                     updateDanmuOption(
-                      danmakuController?.option
-                          .copyWith(strokeWidth: e.toDouble()),
+                      danmakuController?.option.copyWith(
+                        strokeWidth: e.toDouble(),
+                      ),
                     );
                   },
                 ),

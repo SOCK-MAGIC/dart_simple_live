@@ -7,14 +7,12 @@ import 'package:simple_live_app/widgets/settings/settings_card.dart';
 import 'package:simple_live_app/widgets/settings/settings_switch.dart';
 
 class AutoExitSettingsPage extends GetView<AppSettingsController> {
-  const AutoExitSettingsPage({Key? key}) : super(key: key);
+  const AutoExitSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("定时关闭设置"),
-      ),
+      appBar: AppBar(title: const Text("定时关闭设置")),
       body: ListView(
         padding: AppStyle.edgeInsetsA12,
         children: [
@@ -68,9 +66,7 @@ class AutoExitSettingsPage extends GetView<AppSettingsController> {
       initialEntryMode: TimePickerEntryMode.inputOnly,
       builder: (_, child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            alwaysUse24HourFormat: true,
-          ),
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
           child: child!,
         );
       },

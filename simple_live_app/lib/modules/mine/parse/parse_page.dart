@@ -5,14 +5,12 @@ import 'package:simple_live_app/app/app_style.dart';
 import 'package:simple_live_app/modules/mine/parse/parse_controller.dart';
 
 class ParsePage extends GetView<ParseController> {
-  const ParsePage({Key? key}) : super(key: key);
+  const ParsePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("链接解析"),
-      ),
+      appBar: AppBar(title: const Text("链接解析")),
       body: ListView(
         padding: AppStyle.edgeInsetsA12,
         children: [
@@ -33,9 +31,7 @@ class ParsePage extends GetView<ParseController> {
                     hintText: "输入或粘贴哔哩哔哩直播/虎牙直播/斗鱼直播/抖音直播的链接",
                     contentPadding: AppStyle.edgeInsetsA12,
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.withAlpha(50),
-                      ),
+                      borderSide: BorderSide(color: Colors.grey.withAlpha(50)),
                     ),
                   ),
                   onSubmitted: controller.jumpToRoom,
@@ -45,8 +41,9 @@ class ParsePage extends GetView<ParseController> {
                   width: double.infinity,
                   child: TextButton.icon(
                     onPressed: () {
-                      controller
-                          .jumpToRoom(controller.roomJumpToController.text);
+                      controller.jumpToRoom(
+                        controller.roomJumpToController.text,
+                      );
                     },
                     icon: const Icon(Remix.play_circle_line),
                     label: const Text("链接跳转"),
@@ -72,9 +69,7 @@ class ParsePage extends GetView<ParseController> {
                     hintText: "输入或粘贴哔哩哔哩直播/虎牙直播/斗鱼直播/抖音直播的链接",
                     contentPadding: AppStyle.edgeInsetsA12,
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.withAlpha(50),
-                      ),
+                      borderSide: BorderSide(color: Colors.grey.withAlpha(50)),
                     ),
                   ),
                   onSubmitted: controller.getPlayUrl,
@@ -122,18 +117,11 @@ https://webcast.amemv.com/webcast/reflow/xxxxx
         borderRadius: AppStyle.radius8,
         boxShadow: Get.isDarkMode
             ? []
-            : [
-                BoxShadow(
-                  blurRadius: 8,
-                  color: Colors.grey.withAlpha(50),
-                )
-              ],
+            : [BoxShadow(blurRadius: 8, color: Colors.grey.withAlpha(50))],
       ),
       margin: AppStyle.edgeInsetsB12,
       child: Theme(
-        data: Theme.of(context).copyWith(
-          dividerColor: Colors.transparent,
-        ),
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: child,
       ),
     );

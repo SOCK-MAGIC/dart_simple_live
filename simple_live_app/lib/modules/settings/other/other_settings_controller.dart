@@ -134,7 +134,8 @@ class OtherSettingsController extends BaseController {
   }
 
   void shareLogFile(LogFileModel item) {
-    Share.shareXFiles([XFile(item.path)]);
+    ShareParams params = ShareParams(files: [XFile(item.path)]);
+    SharePlus.instance.share(params);
   }
 
   void saveLogFile(LogFileModel item) async {

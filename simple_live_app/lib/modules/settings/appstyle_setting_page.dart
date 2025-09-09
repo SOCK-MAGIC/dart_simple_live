@@ -6,23 +6,18 @@ import 'package:simple_live_app/widgets/settings/settings_card.dart';
 import 'package:simple_live_app/widgets/settings/settings_switch.dart';
 
 class AppstyleSettingPage extends GetView<AppSettingsController> {
-  const AppstyleSettingPage({Key? key}) : super(key: key);
+  const AppstyleSettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("外观设置"),
-      ),
+      appBar: AppBar(title: const Text("外观设置")),
       body: ListView(
         padding: AppStyle.edgeInsetsA12,
         children: [
           Padding(
             padding: AppStyle.edgeInsetsA12.copyWith(top: 0),
-            child: Text(
-              "显示主题",
-              style: Get.textTheme.titleSmall,
-            ),
+            child: Text("显示主题", style: Get.textTheme.titleSmall),
           ),
           SettingsCard(
             child: Obx(
@@ -30,9 +25,7 @@ class AppstyleSettingPage extends GetView<AppSettingsController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RadioListTile<int>(
-                    title: const Text(
-                      "跟随系统",
-                    ),
+                    title: const Text("跟随系统"),
                     visualDensity: VisualDensity.compact,
                     value: 0,
                     contentPadding: AppStyle.edgeInsetsH12,
@@ -42,9 +35,7 @@ class AppstyleSettingPage extends GetView<AppSettingsController> {
                     },
                   ),
                   RadioListTile<int>(
-                    title: const Text(
-                      "浅色模式",
-                    ),
+                    title: const Text("浅色模式"),
                     visualDensity: VisualDensity.compact,
                     value: 1,
                     contentPadding: AppStyle.edgeInsetsH12,
@@ -54,9 +45,7 @@ class AppstyleSettingPage extends GetView<AppSettingsController> {
                     },
                   ),
                   RadioListTile<int>(
-                    title: const Text(
-                      "深色模式",
-                    ),
+                    title: const Text("深色模式"),
                     visualDensity: VisualDensity.compact,
                     value: 2,
                     contentPadding: AppStyle.edgeInsetsH12,
@@ -72,10 +61,7 @@ class AppstyleSettingPage extends GetView<AppSettingsController> {
           AppStyle.vGap12,
           Padding(
             padding: AppStyle.edgeInsetsA12,
-            child: Text(
-              "主题颜色",
-              style: Get.textTheme.titleSmall,
-            ),
+            child: Text("主题颜色", style: Get.textTheme.titleSmall),
           ),
           SettingsCard(
             child: Obx(
@@ -97,48 +83,50 @@ class AppstyleSettingPage extends GetView<AppSettingsController> {
                       child: Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: <Color>[
-                          const Color(0xffEF5350),
-                          const Color(0xff3498db),
-                          const Color(0xffF06292),
-                          const Color(0xff9575CD),
-                          const Color(0xff26C6DA),
-                          const Color(0xff26A69A),
-                          const Color(0xffFFF176),
-                          const Color(0xffFF9800),
-                        ]
-                            .map(
-                              (e) => GestureDetector(
-                                onTap: () {
-                                  controller.setStyleColor(e.value);
-                                  Get.forceAppUpdate();
-                                },
-                                child: Container(
-                                  width: 36,
-                                  height: 36,
-                                  decoration: BoxDecoration(
-                                    color: e,
-                                    borderRadius: AppStyle.radius4,
-                                    border: Border.all(
-                                      color: Colors.grey.withAlpha(50),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Obx(
-                                    () => Center(
-                                      child: Icon(
-                                        Icons.check,
-                                        color: controller.styleColor.value ==
-                                                e.value
-                                            ? Colors.white
-                                            : Colors.transparent,
+                        children:
+                            <Color>[
+                                  const Color(0xffEF5350),
+                                  const Color(0xff3498db),
+                                  const Color(0xffF06292),
+                                  const Color(0xff9575CD),
+                                  const Color(0xff26C6DA),
+                                  const Color(0xff26A69A),
+                                  const Color(0xffFFF176),
+                                  const Color(0xffFF9800),
+                                ]
+                                .map(
+                                  (e) => GestureDetector(
+                                    onTap: () {
+                                      controller.setStyleColor(e.toARGB32());
+                                      Get.forceAppUpdate();
+                                    },
+                                    child: Container(
+                                      width: 36,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                        color: e,
+                                        borderRadius: AppStyle.radius4,
+                                        border: Border.all(
+                                          color: Colors.grey.withAlpha(50),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Obx(
+                                        () => Center(
+                                          child: Icon(
+                                            Icons.check,
+                                            color:
+                                                controller.styleColor.value ==
+                                                    e.toARGB32()
+                                                ? Colors.white
+                                                : Colors.transparent,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                                )
+                                .toList(),
                       ),
                     ),
                 ],

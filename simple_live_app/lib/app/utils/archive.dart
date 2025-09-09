@@ -19,11 +19,12 @@ extension ArchiveExt on Archive {
     }
   }
 
-  add<T>(String name, T raw) {
+  void add<T>(String name, T raw) {
     final data = json.encode(raw);
+    final List<int> contentBytes = utf8.encode(data);
     addFile(
       // 这样会出现问题 不清楚原因
-      ArchiveFile(name, data.length, data),
+      ArchiveFile(name, data.length, contentBytes),
     );
   }
 }

@@ -286,13 +286,12 @@ class Utils {
         title: Text(title),
         children: contents
             .map(
-              (e) => RadioListTile<T>(
-                title: Text(e.toString()),
-                value: e,
+              (e) => RadioGroup<T>(
                 groupValue: value,
                 onChanged: (e) {
                   Get.back(result: e);
                 },
+                child: Text(e.toString()),
               ),
             )
             .toList(),
@@ -351,13 +350,12 @@ class Utils {
         title: Text(title),
         children: contents.keys
             .map(
-              (e) => RadioListTile<T>(
-                title: Text((contents[e] ?? '-').tr),
-                value: e,
+              (e) => RadioGroup<T>(
                 groupValue: value,
                 onChanged: (e) {
                   Get.back(result: e);
                 },
+                child: Text((contents[e] ?? '-').tr),
               ),
             )
             .toList(),

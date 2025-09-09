@@ -11,7 +11,8 @@ import 'package:simple_live_app/widgets/keep_alive_wrapper.dart';
 import 'package:simple_live_app/widgets/status/app_loadding_widget.dart';
 
 class DouyinSearchView extends StatelessWidget {
-  const DouyinSearchView({Key? key}) : super(key: key);
+  const DouyinSearchView({super.key});
+
   DouyinSearchController get controller => Get.find<DouyinSearchController>();
 
   @override
@@ -64,20 +65,23 @@ class DouyinSearchView extends StatelessWidget {
               onCreateWindow: controller.onCreateWindow,
               shouldOverrideUrlLoading:
                   (webController, navigationAction) async {
-                var uri = navigationAction.request.url;
-                if (uri == null) {
-                  return NavigationActionPolicy.ALLOW;
-                }
-                if (uri.host == "live.douyin.com") {
-                  var regExp = RegExp(r"live\.douyin\.com/([\d|\w]+)");
-                  var id = regExp.firstMatch(uri.toString())?.group(1) ?? "";
+                    var uri = navigationAction.request.url;
+                    if (uri == null) {
+                      return NavigationActionPolicy.ALLOW;
+                    }
+                    if (uri.host == "live.douyin.com") {
+                      var regExp = RegExp(r"live\.douyin\.com/([\d|\w]+)");
+                      var id =
+                          regExp.firstMatch(uri.toString())?.group(1) ?? "";
 
-                  AppNavigator.toLiveRoomDetail(
-                      site: controller.site, roomId: id);
-                  return NavigationActionPolicy.CANCEL;
-                }
-                return NavigationActionPolicy.ALLOW;
-              },
+                      AppNavigator.toLiveRoomDetail(
+                        site: controller.site,
+                        roomId: id,
+                      );
+                      return NavigationActionPolicy.CANCEL;
+                    }
+                    return NavigationActionPolicy.ALLOW;
+                  },
             ),
           Obx(
             () => Visibility(

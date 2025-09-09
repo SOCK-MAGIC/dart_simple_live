@@ -14,8 +14,8 @@ class SuperChatCard extends StatefulWidget {
     this.message, {
     required this.onExpire,
     this.customCountdown,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SuperChatCard> createState() => _SuperChatCardState();

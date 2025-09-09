@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:simple_live_app/modules/sync/local_sync/scan_qr/sync_scan_qr_controller.dart';
 
 class SyncScanQRPage extends GetView<SyncScanQRControlelr> {
@@ -14,14 +14,14 @@ class SyncScanQRPage extends GetView<SyncScanQRControlelr> {
         actions: [
           IconButton(
             onPressed: () {
-              controller.qrController?.toggleFlash();
+              controller.qrController?.toggleTorch();
             },
             icon: const Icon(Icons.flash_on),
           ),
           // 反转摄像头
           IconButton(
             onPressed: () {
-              controller.qrController?.flipCamera();
+              controller.qrController?.switchCamera();
             },
             icon: const Icon(Icons.flip_camera_android),
           ),
@@ -29,9 +29,9 @@ class SyncScanQRPage extends GetView<SyncScanQRControlelr> {
       ),
       body: Stack(
         children: [
-          QRView(
+          MobileScanner(
             key: controller.qrKey,
-            onQRViewCreated: controller.onQRViewCreated,
+            controller: controller.qrController,
           ),
           const ScanRectangle(),
         ],
@@ -54,8 +54,10 @@ class _ScanRectangleState extends State<ScanRectangle>
 
   @override
   void initState() {
-    animeController =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animeController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
     animeController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         animeController.reverse();
@@ -78,10 +80,7 @@ class _ScanRectangleState extends State<ScanRectangle>
         height: 240,
         width: 240,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey.withAlpha(50),
-            width: 2,
-          ),
+          border: Border.all(color: Colors.grey.withAlpha(50), width: 2),
         ),
         child: SlideTransition(
           position: animation,
@@ -89,12 +88,7 @@ class _ScanRectangleState extends State<ScanRectangle>
             height: 240,
             width: 240,
             decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  width: 2,
-                  color: Colors.green,
-                ),
-              ),
+              border: Border(top: BorderSide(width: 2, color: Colors.green)),
             ),
           ),
         ),

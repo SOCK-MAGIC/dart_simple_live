@@ -1,12 +1,11 @@
 import 'dart:io';
-
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_live_app/app/controller/base_controller.dart';
 import 'package:simple_live_app/widgets/status/app_empty_widget.dart';
 import 'package:simple_live_app/widgets/status/app_error_widget.dart';
 import 'package:simple_live_app/widgets/status/app_loadding_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
 class PageGridView extends StatelessWidget {
@@ -30,8 +29,8 @@ class PageGridView extends StatelessWidget {
     this.mainAxisSpacing = 0.0,
     this.showPCRefreshButton = true,
     required this.crossAxisCount,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +39,14 @@ class PageGridView extends StatelessWidget {
         children: [
           EasyRefresh(
             header: MaterialHeader(
-              completeDuration: const Duration(milliseconds: 400),
+              processedDuration: const Duration(milliseconds: 400),
             ),
             footer: MaterialFooter(
-              completeDuration: const Duration(milliseconds: 400),
+              processedDuration: const Duration(milliseconds: 400),
             ),
             scrollController: pageController.scrollController,
             controller: pageController.easyRefreshController,
-            firstRefresh: firstRefresh,
+            refreshOnStart: firstRefresh,
             onLoad: pageController.loadData,
             onRefresh: pageController.refreshData,
             child: MasonryGridView.count(

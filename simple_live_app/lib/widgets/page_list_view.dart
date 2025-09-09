@@ -1,12 +1,10 @@
 import 'dart:io';
-
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_live_app/app/controller/base_controller.dart';
 import 'package:simple_live_app/widgets/status/app_empty_widget.dart';
 import 'package:simple_live_app/widgets/status/app_error_widget.dart';
 import 'package:simple_live_app/widgets/status/app_loadding_widget.dart';
-
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
 typedef IndexedWidgetBuilder = Widget Function(BuildContext context, int index);
@@ -16,21 +14,22 @@ class PageListView extends StatelessWidget {
   final IndexedWidgetBuilder itemBuilder;
   final IndexedWidgetBuilder? separatorBuilder;
   final EdgeInsets? padding;
-  final bool firstRefresh;
+  final bool refreshOnStart;
   final Function()? onLoginSuccess;
   final bool showPageLoadding;
   final bool showPCRefreshButton;
+
   const PageListView({
     required this.itemBuilder,
     required this.pageController,
     this.padding,
-    this.firstRefresh = false,
+    this.refreshOnStart = true,
     this.showPageLoadding = false,
     this.showPCRefreshButton = true,
     this.separatorBuilder,
     this.onLoginSuccess,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +38,14 @@ class PageListView extends StatelessWidget {
         children: [
           EasyRefresh(
             header: MaterialHeader(
-              completeDuration: const Duration(milliseconds: 400),
+              processedDuration: const Duration(milliseconds: 400),
             ),
             footer: MaterialFooter(
-              completeDuration: const Duration(milliseconds: 400),
+              processedDuration: const Duration(milliseconds: 400),
             ),
             scrollController: pageController.scrollController,
             controller: pageController.easyRefreshController,
-            firstRefresh: firstRefresh,
+            refreshOnStart: refreshOnStart,
             onLoad: pageController.loadData,
             onRefresh: pageController.refreshData,
             child: ListView.separated(
@@ -62,8 +61,9 @@ class PageListView extends StatelessWidget {
             left: 0,
             right: 0,
             child: // 加载更多按钮
-                Visibility(
-              visible: (Platform.isWindows ||
+            Visibility(
+              visible:
+                  (Platform.isWindows ||
                       Platform.isLinux ||
                       Platform.isMacOS) &&
                   pageController.canLoadMore.value &&
@@ -81,8 +81,9 @@ class PageListView extends StatelessWidget {
             bottom: 12,
             right: 12,
             child: // 加载更多按钮
-                Visibility(
-              visible: (Platform.isWindows ||
+            Visibility(
+              visible:
+                  (Platform.isWindows ||
                       Platform.isLinux ||
                       Platform.isMacOS) &&
                   pageController.canLoadMore.value &&

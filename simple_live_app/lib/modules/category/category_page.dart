@@ -6,7 +6,7 @@ import 'package:simple_live_app/modules/category/category_controller.dart';
 import 'package:simple_live_app/modules/category/category_list_view.dart';
 
 class CategoryPage extends GetView<CategoryController> {
-  const CategoryPage({Key? key}) : super(key: key);
+  const CategoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,7 @@ class CategoryPage extends GetView<CategoryController> {
                   //text: e.name,
                   child: Row(
                     children: [
-                      Image.asset(
-                        e.logo,
-                        width: 24,
-                      ),
+                      Image.asset(e.logo, width: 24),
                       AppStyle.hGap8,
                       Text(e.name),
                     ],
@@ -42,11 +39,7 @@ class CategoryPage extends GetView<CategoryController> {
       body: TabBarView(
         controller: controller.tabController,
         children: Sites.supportSites
-            .map(
-              (e) => CategoryListView(
-                e.id,
-              ),
-            )
+            .map((e) => CategoryListView(e.id))
             .toList(),
       ),
     );

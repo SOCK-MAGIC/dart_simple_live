@@ -5,14 +5,12 @@ import 'package:simple_live_app/modules/mine/account/account_controller.dart';
 import 'package:simple_live_app/services/bilibili_account_service.dart';
 
 class AccountPage extends GetView<AccountController> {
-  const AccountPage({Key? key}) : super(key: key);
+  const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("账号管理"),
-      ),
+      appBar: AppBar(title: const Text("账号管理")),
       body: ListView(
         children: [
           const Padding(
